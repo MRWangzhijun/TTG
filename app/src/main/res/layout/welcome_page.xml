@@ -20,6 +20,7 @@
         android:id="@+id/wel_btn"
         android:background="@drawable/guide_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="500dp"
-        android:visibility="gone"/>
+        android:layout_marginTop="800dp"
+        android:visibility="gone"
+        />
 </RelativeLayout>

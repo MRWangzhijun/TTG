@@ -1,6 +1,7 @@
 package com.mr_wang.ttg.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.mr_wang.ttg.R;
 import com.mr_wang.ttg.adapter.ViewPage_adapter;
 
 import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
@@ -25,7 +27,6 @@ import java.util.TimerTask;
 
 @ContentView(R.layout.welcome_page)
 public class WelcomeActivity extends Activity{
-
 
     @ViewInject(R.id.wel_img)
     private ImageView wel_img;
@@ -88,19 +89,30 @@ public class WelcomeActivity extends Activity{
     private class MyPageChangeListener implements ViewPager.OnPageChangeListener {
 
 
+        //当页面滚动的时候调用
         @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
-        }
-
+        //滑动到新页面的时候调用
         @Override
         public void onPageSelected(int position) {
-
+            if(position==2) {
+                wel_btn.setVisibility(View.VISIBLE);
+            }else {
+                wel_btn.setVisibility(View.GONE);
+            }
         }
 
+        //开始滚动的时候调用
         @Override
-        public void onPageScrollStateChanged(int state) {
+        public void onPageScrollStateChanged(int state) {}
 
-        }
+    }
+
+
+    @Event(R.id.wel_btn)
+    private  void onEvent(View view){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
