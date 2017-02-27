@@ -6,4 +6,6 @@
     <color name="color_text_selected">#FF5454</color>
     <color name="color_text_normal">#000000</color>
     <color name="color_gray">#6C7B8B</color>
+
+    <color name="color_toolbar">#FF7F50</color>
 </resources>

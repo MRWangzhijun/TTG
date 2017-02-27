@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--此处添加自定义属性-->
+<resources>
+    <declare-styleable name="PhoenixToolbar">
+        <!--format 代表attr的值是什么类型
+            reference 代表类型为一个引用或资源文件，所以可以是一个drawable下的图片文件-->
+        <attr name="rightButtonIcon" format="reference"/>
+        <attr name="leftButtonIcon" format="reference"/>
+        <attr name="isShowSearchView"  format="boolean"/>
+        <attr name="rightButtonText" format="string"/>
+    </declare-styleable>
+
+
+
+
+</resources>

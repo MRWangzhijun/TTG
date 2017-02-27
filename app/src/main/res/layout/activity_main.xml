@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.mr_wang.ttg.activity.MainActivity">
-
-
     <FrameLayout
         android:id="@+id/main_fl"
         android:layout_width="match_parent"

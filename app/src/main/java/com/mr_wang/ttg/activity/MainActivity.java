@@ -1,9 +1,11 @@
 package com.mr_wang.ttg.activity;
 
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.mr_wang.ttg.R;
@@ -17,112 +19,84 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 @ContentView(R.layout.activity_main)
-public class MainActivity extends AppCompatActivity {
-    private final String TAG = "SpeedDialActivity";
+public class MainActivity extends FragmentActivity implements RadioGroup.OnCheckedChangeListener  {
 
     @ViewInject(R.id.radioGroup)
     private RadioGroup mRadioGroup;
-    @ViewInject(R.id.radioGroup)
+
+    @ViewInject(R.id.home)
+    private RadioButton home_but;
+
     private Home_Fragment home_fragment;
-    @ViewInject(R.id.radioGroup)
     private My_Fragment my_fragment;
-    @ViewInject(R.id.radioGroup)
     private Search_Fragment search_fragment;
-    @ViewInject(R.id.radioGroup)
     private Tuan_Fragment tuan_fragment;
 
-    private FragmentTransaction transaction;
+
+    private FragmentManager fm;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         x.view().inject(this);
-        //setContentView(R.layout.activity_main);
-      //  init_date();
-       // setupWidgets();
+        initView();
+        changFragment(new Home_Fragment(), false);
     }
 
 
-    private void init_date(){
-        transaction = getFragmentManager()
-                .beginTransaction();
-        if (null == home_fragment) {
-            home_fragment = new Home_Fragment();
+
+
+    private void initView(){
+        fm=getSupportFragmentManager();
+        //已在布局中设置
+        // home_but.setChecked(true);
+        //给按钮组实现监听
+        mRadioGroup.setOnCheckedChangeListener(this);
+
+    }
+
+    /**
+     * 切换不同的Fragment
+     * @param fragment
+     * @param isInit  判断是否添加到回退栈
+     */
+    public  void  changFragment(Fragment fragment, boolean isInit){
+
+        //开启事物
+        FragmentTransaction ft=fm.beginTransaction();
+        //替换Fragemnt
+        ft.replace(R.id.main_fl,fragment);
+
+        //防止出现多个碎片重叠效果
+        if(!isInit) {
+            ft.addToBackStack(null);
         }
-        transaction.add(R.id.main_fl,
-                home_fragment);
-        // Commit the transaction
-        transaction.commit();
-    }
 
-    private void setupWidgets() {
+        //提交事务
+        ft.commit();
 
-        mRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // TODO Auto-generated method stub
-
-                switch (checkedId) {
-                    case R.id.home:
-                        Log.v(TAG, "home_fragment");
-                        if (null == home_fragment) {
-                            home_fragment = new Home_Fragment();
-                        }
-                        transaction = getFragmentManager()
-                                .beginTransaction();
-                        transaction.replace(R.id.main_fl,
-                                home_fragment);
-                        // Commit the transaction
-                        transaction.commit();
-                        break;
-                    case R.id.my:
-                        Log.v(TAG, "my_fragment");
-                        if (null == my_fragment) {
-                            my_fragment = new My_Fragment();
-                        }
-                        transaction = getFragmentManager()
-                                .beginTransaction();
-                        transaction.replace(R.id.main_fl,
-                                my_fragment);
-                        // Commit the transaction
-                        transaction.commit();
-                        break;
-                    case R.id.search:
-                        Log.v(TAG, "setupWidgets():radio2 clicked");
-
-                        if (null == search_fragment) {
-                            search_fragment = new Search_Fragment();
-                        }
-                        transaction = getFragmentManager()
-                                .beginTransaction();
-                        transaction.replace(R.id.main_fl,
-                                search_fragment);
-                        // Commit the transaction
-                        transaction.commit();
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
 
     }
 
     @Override
-    protected void onDestroy() {
-        // TODO Auto-generated method stub
-        super.onDestroy();
-        // dataEncapsulation.closeDataBase_speedDial();
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.home ://首页
+                    changFragment(new Home_Fragment(),true);
+                break;
+            case R.id.my ://我得
+                changFragment(new My_Fragment(),true);
+                break;
+            case R.id.search ://发现
+                changFragment(new Search_Fragment(),true);
+                break;
+            case R.id.tuan ://团购
+                changFragment(new Tuan_Fragment(),true);
+                break;
+
+        }
+
     }
 }
